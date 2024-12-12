@@ -1,6 +1,19 @@
 # Prerequisites
 *.d
-.vscode
+# Tệp cấu hình của IDE
+*.sublime-workspace
+*.sublime-project
+.vscode/
+*.ncb
+*.sdf
+*.suo
+*.user
+*.userprefs
+*.tlog
+*.vscode/
+*.cph/
+# Thư mục chứa thư viện
+lib/
 # Compiled Object files
 *.slo
 *.lo
