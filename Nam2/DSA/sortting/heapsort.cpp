@@ -22,13 +22,10 @@ void sortHeap(int arr[],int n){
     
     for (int i=n/2;i>=1;i--){
         push(arr,i,n);
-            for (int o=1;o<=n;o++) cout << arr[o] << " ";
-            cout<<endl;
     }
     for (int i=n;i>=2;i--){
         swap(arr[1],arr[i]);
         push(arr,1,i-1);
-        for (int o=1;o<=n;o++) cout << arr[o] << " ";cout<<endl;
     }
 }
 int bsearch(int ar[], int n,int x){
