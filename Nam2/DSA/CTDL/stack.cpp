@@ -1,5 +1,6 @@
 //cai dat stack voi danh sach lien ket don
 #include <iostream>
+#include <map>
 using namespace std;
 template <class T>
 class node{
@@ -19,11 +20,11 @@ template <class T>
 class stack{
 private:
     node<T>* h;
-    int size;
+    int num;
 public:
     stack(){
         h = NULL;
-        size = 0;
+        num = 0;
     }
     ~stack(){
         while (h){
@@ -33,35 +34,47 @@ public:
         }
     }
     bool empty(){
-        return size == 0;
+        return num == 0;
     }
     void push(T x){
         h = new node(x,h); 
-        size++;
+        num++;
     }
     void pop(){
-        if (size){
+        if (num){
             node<T> *p = h;
             h = h->getNext();
             delete p;
-            size--;
+            num--;
         }
     }
+    unsigned size(){return num;}
     T& top(){
         return h->getData();
     }
 };
 int main(){
-    stack<int> s;
-    s.push(1);
-    s.push(2);
-    s.push(3);
-    cout<<s.top()<<endl;
-    s.pop();
-    while (!s.empty())
-    {
-        cout<<s.top()<<endl;
-        s.pop();
+    cin.tie(0)->sync_with_stdio(false);
+    map<char,int> m={{'C',12},{'O',16},{'H',1},{'(',0}};
+    int n;
+    cin>>n;
+    for (int i=0;i<n;i++){
+        stack<int> s;
+        string x;
+        cin>>x;
+        for (char c:x){
+            if (m.find(c)!=m.end()){
+                s.push(m[c]);
+            }
+            else if (c==')'){
+                int t=0;
+                while (s.top()!=0) t+=s.top(),s.pop();
+                s.top() = t;
+            }
+            else s.top()*=(c-'0');
+        }
+        int ans=0;
+        while (s.size()) ans+=s.top(),s.pop();
+        cout<<ans<<endl;
     }
-    return 0;
 }

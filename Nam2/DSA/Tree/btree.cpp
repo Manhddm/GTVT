@@ -26,6 +26,10 @@ public:
     {
         this->right = right;
     }
+    void setData(int data)
+    {
+        this->data = data;
+    }
     node *getLeft()
     {
         return this->left;
@@ -82,7 +86,7 @@ public:
             }
         }
     }
-    void inorder(int cnt = 0)
+    void inorder( )
     {
         if (this->root == nullptr)
         {
@@ -90,10 +94,10 @@ public:
         }
         tree *t = new tree();
         t->root = this->root->getLeft();
-        t->inorder(cnt + 1);
-        cout << this->root->getData() << " " << cnt << "\n";
+        t->inorder();
+        cout << this->root->getData() << " " ;
         t->root = this->root->getRight();
-        t->inorder(cnt + 1);
+        t->inorder();
     }
     void preorder(int sau = 0)
     {
@@ -142,27 +146,74 @@ public:
             return t->search(data);
         }
     }
+    void remove(int key) {
+        if (this->root == nullptr) {
+            return;
+        }
+        if (this->root->getData() == key) {
+            if (this->root->getLeft() == nullptr && this->root->getRight() == nullptr) {
+                delete this->root;
+                this->root = nullptr;
+            } else if (this->root->getLeft() == nullptr) {
+                node *tmp = this->root;
+                this->root = this->root->getRight();
+                delete tmp;
+            } else if (this->root->getRight() == nullptr) {
+                node *tmp = this->root;
+                this->root = this->root->getLeft();
+                delete tmp;
+            } else {
+                // Tìm nút nhỏ nhất trong cây con bên phải
+                node *parent = this->root;
+                node *tmp = this->root->getRight();
+                while (tmp->getLeft() != nullptr) {
+                    parent = tmp;
+                    tmp = tmp->getLeft();
+                }
+                // Thay thế giá trị của nút cần xóa bằng giá trị của nút nhỏ nhất
+                this->root->setData(tmp->getData());
+                // Xóa nút nhỏ nhất trong cây con bên phải
+                if (parent->getLeft() == tmp) {// tmp không có con trái
+                    parent->setLeft(tmp->getRight());//set
+                } else {
+                    parent->setRight(tmp->getRight());
+                }
+                delete tmp;
+            }
+        } else {
+            tree *t = new tree();
+            if (key < this->root->getData()) {
+                t->root = this->root->getLeft();
+                t->remove(key);
+                this->root->setLeft(t->root);
+            } else {
+                t->root = this->root->getRight();
+                t->remove(key);
+                this->root->setRight(t->root);
+            }
+            delete t;
+        }
+    }
 };
 main()
 {
     cin.tie(0)->sync_with_stdio(0);
-    int t;
-    cin >> t;
-    while (t--)
-    {
-        int n;
-        cin >> n;
-        tree a;
-        for (int i = 0; i < n; i++)
-        {
-            int x;
-            cin >> x;
-            a.insert(x);
-        }
-        a.inorder();
-        int key =100;
-        cout << a.search(key) << endl;
-        cout << endl;
-    }
+    tree *t = new tree();
+    t->insert(5);
+    t->insert(3);
+    t->insert(7);
+    t->insert(2);
+    t->insert(4);
+    t->insert(6);
+    t->insert(8);
+    t->inorder();
+    cout << endl;
+    t->preorder();
+    cout << endl;
+    t->postorder();
+    cout << endl;
+    cout << t->search(5) << endl;
+    t->remove(5);
+    t->inorder();
     return 0;
 }
