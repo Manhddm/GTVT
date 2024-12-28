@@ -1,6 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+//phân tích chi tiết thuật toán
+/*
+- Đầu vào: n, m (1 ≤ n ≤ 10^5, 0 ≤ m ≤ 10^5) - số người và số cặp người là bạn của nhau
+- Xử lý:
+    + Khởi tạo DSU với n người
+    + Duyệt qua m cặp người là bạn của nhau:
+        * Nếu 2 người không cùng một nhóm thì gộp 2 nhóm lại thành một nhóm
+    + In ra số nhóm và số người nhiều nhất trong một nhóm
+- Đầu ra: số nhóm và số người nhiều nhất trong một nhóm
+*/
 class DSU {
 private:
     vector<int> parent, rank;
