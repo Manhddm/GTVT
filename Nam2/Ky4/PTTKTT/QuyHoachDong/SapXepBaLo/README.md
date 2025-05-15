@@ -37,6 +37,7 @@ Giả sử:
 - i=1: Chỉ xét vật 1 (trọng lượng 2, giá trị 3). Nếu sức chứa >=2 thì lấy được vật này, giá trị là 3.
 - i=2: Xét thêm vật 2 (trọng lượng 3, giá trị 4). Nếu sức chứa >=3, có thể chọn vật này hoặc không, lấy giá trị lớn nhất.
   - Ví dụ sức chứa 5: lấy cả vật 1 và vật 2 được 3+4=7.
+
 ---
 
 **Lưu ý:**  
