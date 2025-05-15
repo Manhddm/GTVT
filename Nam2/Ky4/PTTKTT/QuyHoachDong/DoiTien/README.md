@@ -1,45 +1,39 @@
-# Bài toán đổi tiền (Coin Change) - Phương pháp quy hoạch động (Dynamic Programming)
+# Bài toán đổi tiền (Coin Change)
 
 ## Đề bài
-Cho n loại tiền có mệnh giá a₁, a₂, ..., aₙ. Hỏi cần ít nhất bao nhiêu tờ tiền để đổi được số tiền m (nếu không đổi được thì in -1).
+Cho n loại tiền có mệnh giá a₁, a₂, ..., aₙ. Hỏi với số tiền M, cần ít nhất bao nhiêu tờ tiền để đổi được đúng số tiền M? Nếu không thể đổi được thì in ra -1.
 
-## Ý tưởng giải (Dynamic Programming)
-- dp[x]: số tờ tiền ít nhất để đổi được x đồng.
-- Khởi tạo dp[0] = 0, các dp[x] khác = ∞ (hoặc giá trị rất lớn).
-- Với mỗi loại tiền, cập nhật:  
-  dp[j] = min(dp[j], dp[j - a[i]] + 1) với mọi j ≥ a[i].
+## Ý tưởng thuật toán
 
-## Minh họa với ví dụ:
+- Sử dụng quy hoạch động hai chiều: C[i][j] là số tờ tiền ít nhất để đổi được số tiền j chỉ dùng các loại tiền từ 1 đến i.
+- Khởi tạo: C[0][j] = ∞ với mọi j > 0 (không dùng đồng nào thì không đổi được số tiền dương).
+- Với mỗi loại tiền i, xét từng số tiền j từ 1 đến M:
+    - Nếu không dùng đồng i: C[i][j] = C[i-1][j]
+    - Nếu dùng đồng i (nếu j ≥ a[i]): C[i][j] = min(C[i][j], C[i][j-a[i]] + 1)
+
+## Minh họa chi tiết
+
 Giả sử:
-- n = 3, m = 10
+- n = 3, M = 10
 - a = [1, 7, 5]
 
-### Các bước thực hiện:
-1. Khởi tạo dp[0] = 0, dp[1..10] = ∞.
-2. Với từng mệnh giá, cập nhật dp như sau:
+Bảng C[i][j] (i: loại tiền, j: số tiền):
 
-| m (số tiền cần đổi) | dp[m] sau khi tính | Cách chọn tờ tiền |
-|---------------------|-------------------|-------------------|
-| 1                   | 1                 | 1                 |
-| 2                   | 2                 | 1+1               |
-| 3                   | 3                 | 1+1+1             |
-| 4                   | 4                 | 1+1+1+1           |
-| 5                   | 1                 | 5                 |
-| 6                   | 2                 | 5+1               |
-| 7                   | 1                 | 7                 |
-| 8                   | 2                 | 7+1               |
-| 9                   | 3                 | 7+1+1             |
-| 10                  | 2                 | 5+5 hoặc 7+1+1+1  |
+|   | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---|---|---|---|---|---|---|---|---|---|----|
+|0  |∞  |∞  |∞  |∞  |∞  |∞  |∞  |∞  |∞  |∞   |
+|1  |1  |2  |3  |4  |5  |6  |7  |8  |9  |10  |
+|2  |1  |2  |3  |4  |5  |6  |1  |2  |3  |4   |
+|3  |1  |2  |3  |4  |1  |2  |1  |2  |3  |2   |
 
-### Kết quả:
-- Đổi 10: cần 2 tờ (5+5)
-- Nếu không thể đổi được số tiền m nào đó, dp[m] sẽ vẫn là ∞, in ra -1.
+- Dòng 1: chỉ dùng đồng 1, cần đúng j tờ cho số tiền j.
+- Dòng 2: thêm đồng 7, với j ≥ 7 có thể dùng 1 tờ 7 + số tờ cho phần còn lại.
+- Dòng 3: thêm đồng 5, với j ≥ 5 có thể dùng 1 tờ 5 + số tờ cho phần còn lại.
 
-## Đặc điểm:
-- Độ phức tạp O(n*m), phù hợp với n, m lớn vừa phải.
-- Đảm bảo tìm ra đáp án tối ưu (nếu có).
+Ví dụ: Đổi 10 đồng:
+- Dùng hai tờ 5 (C[3][10] = 2).
 
----
+## Độ phức tạp
 
-**Lưu ý:**  
-Phương pháp này hiệu quả hơn quay lui khi n, m lớn.
+- Thời gian: O(n*M)
+- Không gian: O(n*M)

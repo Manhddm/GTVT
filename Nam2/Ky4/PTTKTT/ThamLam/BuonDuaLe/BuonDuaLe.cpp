@@ -21,6 +21,12 @@ int main() {
 			Q.front()-=(m-t);
 			t+=(m-t);
 		}
+		queue<long long> tmp = Q;
+		while(tmp.size()) {
+			cout << tmp.front() << " ";
+			tmp.pop();
+		}
+		cout << endl;
 		res+=t;
 	} 
 	cout << res;
