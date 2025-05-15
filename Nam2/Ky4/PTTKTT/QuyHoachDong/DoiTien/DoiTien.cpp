@@ -33,6 +33,13 @@ using namespace std;
 //     cerr<<endl<<"Time: "<<TIME;
 // }
 //version 2.0 , dp[i][j];
+void Trace(int n, int m){
+    if (C[n][m] ==0) return;
+    while (C[n][m] == C[n-1][m]) n--;
+    Trace(n-1,m-a[n]);
+    cout<<a[n]<<" ";
+    
+}
 main(){
     int n,M;
     cin>>n>>M;
