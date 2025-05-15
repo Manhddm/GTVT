@@ -8,7 +8,7 @@ void Try(int a[], int n,int M , int k, int A, int B){
 		return;
 	}
 	if (A + a[k] <= M/2) Try(a,n,M,k+1,A+a[k],B);
-	if (k + a[k] < (M+ res)/2) Try(a,n,M,k+1,A,B+a[k]);
+	if (B + a[k] < (M+ res)/2) Try(a,n,M,k+1,A,B+a[k]);
 }
 int main()
 {

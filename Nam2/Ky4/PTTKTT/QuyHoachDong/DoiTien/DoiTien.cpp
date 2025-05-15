@@ -16,7 +16,7 @@ main(){
     int n, q,u;
     cin>>n>>q;
     int a[n];
-    for (auto &x:a) cin>>x;
+    for (auto &x:a) cin>>x, dp[x]=1;
     vector <int> dp(10005,1e9);
     dp[0]=0;
     for (auto x:a)
