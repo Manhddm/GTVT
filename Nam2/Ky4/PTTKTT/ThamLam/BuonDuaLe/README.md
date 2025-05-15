@@ -3,29 +3,38 @@
 ## Đề bài
 Có n thửa ruộng, mỗi thửa ruộng khi bắt đầu chín thì phải thu hoạch trong vòng k ngày, mỗi ngày chỉ được thu hoạch tối đa m đơn vị sản lượng. Hỏi tổng sản lượng lớn nhất Tito có thể thu hoạch được là bao nhiêu?
 
-## Ý tưởng giải
-- Duyệt từng ngày, mỗi ngày xét các thửa ruộng đang chín trong cửa sổ k ngày.
-- Mỗi ngày chỉ thu hoạch tối đa m đơn vị, ưu tiên thu hoạch các thửa ruộng chín sớm hơn.
-- Sử dụng hàng đợi (queue) để quản lý các thửa ruộng trong cửa sổ k ngày.
+## Các bước thuật toán
 
-## Minh họa với ví dụ:
+1. **Khởi tạo** một hàng đợi (queue) để lưu sản lượng các thửa ruộng đang trong thời gian thu hoạch (cửa sổ k ngày).
+2. **Duyệt từng ngày** từ 1 đến n+k-1:
+   - Nếu còn thửa ruộng mới, thêm sản lượng của thửa ruộng đó vào queue, nếu không thì thêm 0.
+   - Nếu queue có nhiều hơn k phần tử, loại bỏ phần tử đầu (đã quá hạn thu hoạch).
+3. **Mỗi ngày**, thu hoạch tối đa m đơn vị:
+   - Lấy lần lượt các thửa ruộng trong queue, ưu tiên thửa chín sớm (đầu queue).
+   - Nếu tổng đã thu hoạch trong ngày + sản lượng thửa ruộng <= m, lấy hết thửa ruộng đó.
+   - Nếu không, chỉ lấy phần còn lại đủ m, cập nhật lại sản lượng thửa ruộng đầu queue.
+   - Cộng tổng sản lượng thu hoạch trong ngày vào kết quả.
+4. **Lặp lại** cho đến hết các ngày.
+
+## Minh họa với ví dụ
+
 Giả sử:
 - n = 6, k = 2, m = 5
 - a = [4, 7, 2, 18, 1, 10]
 
-### Các bước thực hiện:
-- Ngày 1: Thêm 4 vào queue. Thu hoạch tối đa 4 (vì m=5), còn lại 0. Tổng = 4.
-- Ngày 2: Thêm 7 vào queue. Thu hoạch tối đa 5 (lấy hết 7, còn lại 2). Tổng = 4+5=9.
-- Ngày 3: Thêm 2 vào queue. Thu hoạch tối đa 5 (lấy hết 2, còn lại 0; lấy tiếp 2 còn lại từ ngày trước, hết 2, còn lại 0). Tổng = 9+4=13.
-- Ngày 4: Thêm 18 vào queue. Thu hoạch tối đa 5 (lấy 5 từ 18, còn lại 13). Tổng = 13+5=18.
-- Ngày 5: Thêm 1 vào queue. Thu hoạch tối đa 5 (lấy 5 từ 13 còn lại, còn lại 8). Tổng = 18+5=23.
-- Ngày 6: Thêm 10 vào queue. Thu hoạch tối đa 5 (lấy 5 từ 8 còn lại, còn lại 3). Tổng = 23+5=28.
-- Ngày 7: Thêm 0 vào queue (không còn ruộng mới). Thu hoạch tối đa 5 (lấy 3 từ 3 còn lại, còn lại 0; lấy tiếp 2 từ 10, còn lại 8). Tổng = 28+5=33.
+| Ngày | Queue trước | Thêm vào | Queue sau thêm | Thu hoạch | Queue sau thu hoạch | Tổng |
+|------|------------|----------|---------------|-----------|---------------------|------|
+| 1    | []         | 4        | [4]           | 4         | []                  | 4    |
+| 2    | []         | 7        | [7]           | 5         | [2]                 | 9    |
+| 3    | [2]        | 2        | [2,2]         | 4         | []                  | 13   |
+| 4    | []         | 18       | [18]          | 5         | [13]                | 18   |
+| 5    | [13]       | 1        | [13,1]        | 5         | [8,1]               | 23   |
+| 6    | [8,1]      | 10       | [8,1,10]      | 5         | [3,1,10]            | 28   |
+| 7    | [3,1,10]   | 0        | [3,1,10]      | 5         | [0,1,10]            | 33   |
 
-### Kết quả:
 - Tổng sản lượng thu hoạch tối đa: **33**
 
 ---
 
 **Lưu ý:**  
-Bài toán sử dụng kỹ thuật tham lam kết hợp hàng đợi để tối ưu hóa sản lượng thu hoạch mỗi ngày.
+Thuật toán sử dụng kỹ thuật tham lam và hàng đợi để đảm bảo luôn ưu tiên thu hoạch các thửa ruộng chín sớm nhất trong giới hạn mỗi ngày.
